@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Penalties</title>
+</head>
+<body>
+<h2>Ваши штрафы:</h2>
+<div th:each="book : ${booksList}">
+    <form action="paypenalties" method="post">
+        <span th:text="${book.name}">Имя книги</span>
+        <span th:text="${book.endTime}">Дата сдачи</span>
+        <span th:text="${book.penalty}">Штраф</span>
+        <input name="bookId" type="hidden" th:value="${book.id}">
+        <input name="penalty" type="hidden" th:value="${book.penalty}">
+        <button type="submit">Оплатить штраф</button>
+    </form>
+</div>
+</body>
+</html>
