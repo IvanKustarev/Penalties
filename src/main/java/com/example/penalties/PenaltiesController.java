@@ -41,6 +41,9 @@ public class PenaltiesController {
         }
 
         model.addAttribute("booksList", booksList);
+
+        addModelAttributes(model, userId);
+
         return "penalties";
     }
 
@@ -52,6 +55,9 @@ public class PenaltiesController {
         if (Double.valueOf(user.getBalance()) < penalty) {
             model.addAttribute("toMainURL", toMainURL);
             model.addAttribute("message", "Недостаточно средств! Пополните баланс");
+
+            addModelAttributes(model, userId);
+
             return "message";
         } else {
             user.setBalance(user.getBalance() - penalty);
@@ -61,7 +67,20 @@ public class PenaltiesController {
             booksRepository.save(book);
             model.addAttribute("toMainURL", toMainURL);
             model.addAttribute("message", "Штраф оплачен книгу нужно сдать в течение дня!");
+
+            addModelAttributes(model, userId);
+
             return "message";
         }
+    }
+
+    private Model addModelAttributes(Model model, Long userId){
+        model.addAttribute("toAuthorisation", "http://localhost:8081/authorisation/");
+        model.addAttribute("toProfile", "http://localhost:8082/profile/" + userId + "/");
+        model.addAttribute("toCatalog", "http://localhost:8083/catalog/" + userId + "/");
+        model.addAttribute("toSubscription", "http://localhost:8084/subscription/" + userId + "/");
+        model.addAttribute("toPay", "http://localhost:8085/pay/" + userId + "/");
+        model.addAttribute("toPenalties", "http://localhost:8086/penalties/" + userId + "/");
+        return model;
     }
 }
